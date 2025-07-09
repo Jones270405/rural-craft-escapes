@@ -5,14 +5,27 @@ import { ArrowRight, Mountain, Users, Camera } from "lucide-react";
 const Hero = () => {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background Image */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center bg-fixed"
-        style={{
-          backgroundImage: `url('https://images.unsplash.com/photo-1469474968028-56623f02e42e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80')`
-        }}
-      >
-        <div className="absolute inset-0 bg-black/40"></div>
+      {/* Background Video */}
+      <div className="absolute inset-0">
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="w-full h-full object-cover"
+        >
+          <source
+            src="https://videos.pexels.com/video-files/3571264/3571264-uhd_2560_1440_30fps.mp4"
+            type="video/mp4"
+          />
+          {/* Fallback image if video fails to load */}
+          <img
+            src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
+            alt="Rural landscape"
+            className="w-full h-full object-cover"
+          />
+        </video>
+        <div className="absolute inset-0 bg-black/50"></div>
       </div>
 
       {/* Content */}
