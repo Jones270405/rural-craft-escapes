@@ -3,6 +3,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Heart, ShoppingCart, Eye } from "lucide-react";
+import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 const handicrafts = [
   {
@@ -52,6 +54,44 @@ const handicrafts = [
 ];
 
 const Handicrafts = () => {
+  const [favorites, setFavorites] = useState<number[]>([]);
+  const { toast } = useToast();
+
+  const toggleFavorite = (id: number) => {
+    setFavorites(prev => 
+      prev.includes(id) 
+        ? prev.filter(fav => fav !== id)
+        : [...prev, id]
+    );
+    toast({
+      title: favorites.includes(id) ? "Removed from favorites" : "Added to favorites",
+      description: "Your favorites have been updated.",
+    });
+  };
+
+  const addToCart = (item: typeof handicrafts[0]) => {
+    if (!item.inStock) {
+      toast({
+        title: "Item out of stock",
+        description: "We'll notify you when this item is back in stock.",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    toast({
+      title: "Added to cart",
+      description: `${item.name} has been added to your cart.`,
+    });
+  };
+
+  const viewDetails = (item: typeof handicrafts[0]) => {
+    toast({
+      title: "View Details",
+      description: `Viewing details for ${item.name} by ${item.artisan}`,
+    });
+  };
+
   return (
     <section className="py-20 px-4 bg-gradient-to-br from-amber-50 to-orange-50">
       <div className="max-w-7xl mx-auto">
@@ -79,10 +119,20 @@ const Handicrafts = () => {
                   </Badge>
                 </div>
                 <div className="absolute top-2 right-2 flex gap-2">
-                  <Button size="sm" variant="ghost" className="h-8 w-8 p-0 bg-white/80 hover:bg-white">
-                    <Heart className="h-4 w-4" />
+                  <Button 
+                    size="sm" 
+                    variant="ghost" 
+                    className="h-8 w-8 p-0 bg-white/80 hover:bg-white"
+                    onClick={() => toggleFavorite(item.id)}
+                  >
+                    <Heart className={`h-4 w-4 ${favorites.includes(item.id) ? 'fill-red-500 text-red-500' : ''}`} />
                   </Button>
-                  <Button size="sm" variant="ghost" className="h-8 w-8 p-0 bg-white/80 hover:bg-white">
+                  <Button 
+                    size="sm" 
+                    variant="ghost" 
+                    className="h-8 w-8 p-0 bg-white/80 hover:bg-white"
+                    onClick={() => viewDetails(item)}
+                  >
                     <Eye className="h-4 w-4" />
                   </Button>
                 </div>
@@ -106,6 +156,7 @@ const Handicrafts = () => {
                 <Button 
                   className="w-full bg-amber-600 hover:bg-amber-700 text-white"
                   disabled={!item.inStock}
+                  onClick={() => addToCart(item)}
                 >
                   <ShoppingCart className="h-4 w-4 mr-2" />
                   {item.inStock ? "Add to Cart" : "Notify Me"}

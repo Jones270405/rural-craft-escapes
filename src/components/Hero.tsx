@@ -1,8 +1,25 @@
 
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Mountain, Users, Camera } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const Hero = () => {
+  const navigate = useNavigate();
+
+  const scrollToBooking = () => {
+    const bookingSection = document.getElementById('booking-section');
+    if (bookingSection) {
+      bookingSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const scrollToDestinations = () => {
+    const destinationsSection = document.getElementById('destinations-section');
+    if (destinationsSection) {
+      destinationsSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Video */}
@@ -42,11 +59,20 @@ const Hero = () => {
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12 animate-fade-in">
-          <Button size="lg" className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 text-lg group">
+          <Button 
+            size="lg" 
+            className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 text-lg group"
+            onClick={scrollToBooking}
+          >
             Book Your Journey
             <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
           </Button>
-          <Button variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-green-600 px-8 py-3 text-lg">
+          <Button 
+            variant="outline" 
+            size="lg" 
+            className="border-white text-white hover:bg-white hover:text-green-600 px-8 py-3 text-lg"
+            onClick={scrollToDestinations}
+          >
             Explore Destinations
           </Button>
         </div>

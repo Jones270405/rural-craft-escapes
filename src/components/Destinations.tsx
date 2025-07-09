@@ -37,6 +37,13 @@ const destinations = [
 ];
 
 const Destinations = () => {
+  const scrollToBooking = () => {
+    const bookingSection = document.getElementById('booking-section');
+    if (bookingSection) {
+      bookingSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <section className="py-20 px-4 bg-white">
       <div className="max-w-7xl mx-auto">
@@ -84,7 +91,10 @@ const Destinations = () => {
                     <Clock className="h-4 w-4 mr-1" />
                     {destination.duration}
                   </div>
-                  <Button className="bg-green-600 hover:bg-green-700">
+                  <Button 
+                    className="bg-green-600 hover:bg-green-700"
+                    onClick={scrollToBooking}
+                  >
                     Book Now
                   </Button>
                 </div>
